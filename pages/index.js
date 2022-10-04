@@ -57,6 +57,12 @@ const Home = ({ data }) => {
     <div className="bg-stone-100">
       <Head>
         <title>One Picture, One Thought</title>
+        <meta name="description" content="Visual Journal made by Maru." />
+        <meta property="og:title" content="One Picture, One Thought" />
+        <meta
+          property="og:description"
+          content="Visual Journal made by Maru."
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -98,7 +104,7 @@ const Home = ({ data }) => {
             </li>
           </ul>
         </header>
-        <div className="columns-2 gap-3 space-y-3">
+        <div className="sm:columns-2 gap-3 space-y-3">
           {data.map((elem, index) => (
             // TODO: refactor the way I'm passing props
             <Picture
