@@ -12,7 +12,7 @@ const Home = ({ data }) => {
   );
 
   const sortedDates = uniqueDates.sort(
-    (date1, date2) => new Date(date1) - new Date(date2)
+    (date1, date2) => new Date(date2) - new Date(date1)
   );
 
   function currentStreak() {
@@ -20,19 +20,11 @@ const Home = ({ data }) => {
     let consecutiveDates = [];
 
     const today = new Date();
-    const myToday = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-      0,
-      0,
-      0
-    );
 
     sortedDates.reverse().forEach((el, i) => {
       if (
-        myToday.setUTCHours(0, 0, 0, 0) -
-          new Date(el).setUTCHours(0, 0, 0, 0) ===
+        new Date(el).setUTCHours(0, 0, 0, 0) -
+          new Date("2022-09-27").setUTCHours(0, 0, 0, 0) ===
         i * 86400000
       ) {
         count++;
