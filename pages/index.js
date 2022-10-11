@@ -11,23 +11,40 @@ const Home = ({ data }) => {
     (date, index) => dates.indexOf(date) === index
   );
 
-  const sortedDates = uniqueDates.sort(
+  const descDates = [...uniqueDates].sort(
     (date1, date2) => new Date(date2) - new Date(date1)
   );
 
-  function currentStreak() {
-    let count = 0;
+  const ascDates = [...uniqueDates].sort(
+    (date1, date2) => new Date(date1) - new Date(date2)
+  );
+
+  // TODO: make some function(s) for the repetitive operations on dates
+  function currentStreakDate() {
     let consecutiveDates = [];
 
     const today = new Date();
+    const myToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      0,
+      0,
+      0
+    );
 
-    sortedDates.reverse().forEach((el, i) => {
+    myToday.setHours(
+      ascDates.includes(new Date().toISOString().substring(0, 10))
+        ? today.getHours()
+        : 0
+    );
+
+    ascDates.reverse().forEach((el, i) => {
       if (
-        new Date(el).setUTCHours(0, 0, 0, 0) -
-          new Date("2022-09-27").setUTCHours(0, 0, 0, 0) ===
+        myToday.setUTCHours(0, 0, 0, 0) -
+          new Date(el).setUTCHours(0, 0, 0, 0) ===
         i * 86400000
       ) {
-        count++;
         consecutiveDates.push(el);
         // Sort in ascending order
         consecutiveDates.sort(
@@ -35,10 +52,29 @@ const Home = ({ data }) => {
         );
       }
     });
-    return { today, count, consecutiveDates };
+
+    return { today, consecutiveDates };
   }
 
-  const { today, count, consecutiveDates } = currentStreak();
+  const { today, consecutiveDates } = currentStreakDate();
+
+  function currentStreakCount() {
+    let count = 0;
+
+    descDates.reverse().forEach((el, i) => {
+      if (
+        new Date(el).setUTCHours(0, 0, 0, 0) -
+          new Date(consecutiveDates[0]).setUTCHours(0, 0, 0, 0) ===
+        i * 86400000
+      ) {
+        count++;
+      }
+    });
+
+    return { count };
+  }
+
+  const { count } = currentStreakCount();
 
   const earliestStreakDate = new Date(consecutiveDates[0]).toLocaleDateString(
     "en-US",
